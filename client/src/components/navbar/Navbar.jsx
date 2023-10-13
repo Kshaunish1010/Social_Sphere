@@ -15,9 +15,7 @@ const Navbar = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.DarkMode.mode);
-  console.log(darkMode);
   const handleClick = () => {
-    console.log(1);
     dispatch(toggleDarkMode());
   };
   return (

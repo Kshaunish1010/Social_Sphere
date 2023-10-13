@@ -15,7 +15,6 @@ const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
-  //console.log(currentUser.id);
   const { isLoading, error, data } = useQuery(["likes", post.id], () =>
     makeRequest.get("/likes?postid=" + post.id).then((res) => {
       return res.data;
@@ -61,7 +60,7 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.profilePic} alt="" />
+            <img src={"/upload/" + post.profilePic} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userid}`}
@@ -104,7 +103,7 @@ const Post = ({ post }) => {
             Share
           </div>
         </div>
-        {commentOpen && <Comments postid={post.id} />}
+        {commentOpen && <Comments postId={post.id} />}
       </div>
     </div>
   );
