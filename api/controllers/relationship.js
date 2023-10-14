@@ -5,6 +5,7 @@ export const getRelationships = (req, res) => {
   const q = `SELECT followerUserid FROM relationships WHERE followedUserid = ?`;
 
   db.query(q, [req.query.followerUserid], (err, data) => {
+    console.log(data);
     if (err) return res.status(500).json(err);
     return res
       .status(200)
@@ -18,11 +19,12 @@ export const addRelationship = (req, res) => {
 
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
-    const q = "INSERT INTO likes (`userid`,`postid`) VALUES (?)";
-    const values = [userInfo.id, req.body.postid];
+    const q =
+      "INSERT INTO relationships (`followerUserid`,`folowedUserid`) VALUES (?)";
+    const values = [userInfo.id, req.body.userid];
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
-      res.status(200).json({ message: "Post has been liked." });
+      res.status(200).json({ message: "Following" });
     });
   });
 };
@@ -34,11 +36,12 @@ export const deleteRelationship = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    const q = "DELETE FROM likes WHERE `userid` = ? AND `postid` = ?";
+    const q =
+      "DELETE FROM relationships WHERE `followerUserid` = ? AND `followedUserid` = ?";
 
-    db.query(q, [userInfo.id, req.query.postid], (err, data) => {
+    db.query(q, [userInfo.id, req.query.userid], (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json("Post has been disliked.");
+      return res.status(200).json("Unfollowing");
     });
   });
 };

@@ -13,7 +13,10 @@ import { useQuery, useQueryClient, useMutation } from "react-query";
 import { makeRequest } from "../../axios";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import Update from "../../components/update/Update";
 const Profile = () => {
+  const [openUpdate, setOpenUpdate] = useState(false);
   const userid = parseInt(useLocation().pathname.split("/")[2]);
   // console.log(userid);
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -30,8 +33,25 @@ const Profile = () => {
         return res.data;
       })
   );
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    (following) => {
+      if (following)
+        return makeRequest.delete("/relationships?userid=" + userid);
+      return makeRequest.post("/relationships", { userid });
+    },
+    {
+      onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries(["relationships"]);
+      },
+    }
+  );
   console.log(relationshipData);
-  const handleFollow = () => {};
+  const handleFollow = () => {
+    mutation.mutate(relationshipData.includes(currentUser.id));
+  };
   return (
     <div className="profile">
       {isLoading ? (
@@ -73,10 +93,16 @@ const Profile = () => {
                     <span>{data.website}</span>
                   </div>
                 </div>
-                {userid === currentUser.id ? (
-                  <button>update</button>
+                {rIsLoading ? (
+                  "loading"
+                ) : userid === currentUser.id ? (
+                  <button onClick={() => setOpenUpdate(true)}>update</button>
                 ) : (
-                  <button onClick={handleFollow}>Follow</button>
+                  <button onClick={handleFollow}>
+                    {relationshipData.includes(currentUser.id)
+                      ? "Following"
+                      : "Follow"}
+                  </button>
                 )}
               </div>
 
@@ -85,10 +111,11 @@ const Profile = () => {
                 <MoreVertIcon />
               </div>
             </div>
-            <Posts />
+            <Posts useriid={userid} />
           </div>
         </>
       )}
+      {openUpdate && <Update setOpenUpdate={setOpenUpdate} user={data} />}
     </div>
   );
 };
