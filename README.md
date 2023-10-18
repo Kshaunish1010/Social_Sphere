@@ -34,4 +34,29 @@ To get started with Social Sphere, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Social-Sphere.git
+   git clone https://github.com/Kshaunish1010/Social_Sphere.git
+
+
+2. Navigate to the project directory: `cd Social_Sphere`
+   
+3. Install dependencies for the frontend and backend:
+* Frontend:  Change directory to the `client` directory: `cd client`
+  * Install the Node.js dependencies: `npm install`
+
+* Backend:Change directory to the `api` directory: `cd api`
+  * Install the Node.js dependencies: `npm install`
+
+
+4. Set up a MongoDB database and configure the necessary environment variables for the server.
+
+5. Obtain an API key for the OpenAI API and configure it in the project to enable AI-powered image generation.
+
+6. To start the servers:
+
+* Start the frontend and backend servers separately using the following commands in their respective directories:
+    * Frontend: `cd client;
+                 npm start`
+    * Backend: `cd api;
+                npm index.js`
+
+Access the application by opening a web browser and navigating to the provided URL (usually http://localhost:3000).
