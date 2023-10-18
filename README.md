@@ -47,11 +47,10 @@ To get started with Social Sphere, follow these steps:
   * Install the Node.js dependencies: `npm install`
 
 
-4. Set up a MongoDB database and configure the necessary environment variables for the server.
+4. Set up a MySQL database and configure the necessary environment variables for the server.
 
-5. Obtain an API key for the OpenAI API and configure it in the project to enable AI-powered image generation.
 
-6. To start the servers:
+5. To start the servers:
 
 * Start the frontend and backend servers separately using the following commands in their respective directories:
     * Frontend: `cd client;
